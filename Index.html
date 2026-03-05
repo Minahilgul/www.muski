@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muskan's Magical Birthday 🎉💖</title>
+<style>
+body, html {margin:0; padding:0; font-family:'Comic Sans MS', cursive; background:#ffc0cb; overflow-x:hidden; cursor:none;}
+.page {display:none; text-align:center; min-height:100vh; position:relative; padding:20px;}
+h1,h2,p{margin:10px; color:#800020;}
+button{padding:15px 30px; border:none; border-radius:20px; background:#ff69b4; color:#fff; font-size:1.2em; cursor:pointer; margin-top:20px; transition:transform 0.2s;}
+button:hover{transform:scale(1.1);}
+.realKitten{position:absolute; bottom:40px; width:120px; animation:kittenDance 1.5s infinite alternate;}
+.k1{left:10%;} .k2{right:10%;}
+@keyframes kittenDance{0%{transform:rotate(-10deg);}50%{transform:rotate(10deg);}100%{transform:rotate(-10deg);}}
+.realBarbie{position:absolute; top:150px; left:50%; transform:translateX(-50%); width:200px; animation:barbieCut 2s infinite;}
+@keyframes barbieCut{0%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-20px);}100%{transform:translateX(-50%) translateY(0);}}
+.confetti{position:absolute; width:10px; height:10px; border-radius:50%; top:0; opacity:0.8; animation:fall linear forwards;}
+@keyframes fall{to{transform:translateY(100vh) rotate(360deg); opacity:0;}}
+.floating{position:absolute; font-size:20px; animation:floatAnim linear infinite;}
+@keyframes floatAnim{0%{transform:translateY(0) rotate(0deg);}100%{transform:translateY(100vh) rotate(360deg); opacity:0;}}
+.bear{font-size:50px; position:absolute; animation:bearDance 2s infinite alternate; transition:transform 0.2s;}
+@keyframes bearDance{0%{transform:rotate(-15deg);}50%{transform:rotate(15deg);}100%{transform:rotate(-15deg);}}
+.cake{font-size:80px; animation:glow 1s infinite alternate;}
+@keyframes glow{0%{transform:scale(1);}50%{transform:scale(1.1);}100%{transform:scale(1);}}
+.balloon{position:absolute; font-size:50px; animation:balloonFloat linear infinite; cursor:pointer;}
+@keyframes balloonFloat{0%{transform:translateY(100vh) rotate(0deg);}100%{transform:translateY(-100px) rotate(360deg);}}
+#poetry{font-size:22px; color:#ff1493; margin-top:20px; line-height:1.5; font-weight:bold;}
+.sparkle{position:absolute; font-size:18px; pointer-events:none;}
+.jashanText{position:absolute; top:40%; left:50%; transform:translate(-50%,-50%); font-size:50px; color:#ff1493; font-weight:bold; text-shadow:2px 2px #fff; display:none;}
+</style>
+</head>
+<body>
+
+<!-- Pages 1–9 -->
+<section class="page" id="page1"><h1>Welcome to My Magical Place 💖🐻</h1><button class="nextBtn">Enter</button></section>
+<section class="page" id="page2"><h2>Click the Hearts ❤️</h2><div id="hearts2"></div><button class="nextBtn">Next</button></section>
+<section class="page" id="page3"><h2>Drag the Bears to the Hearts 🐻❤️</h2><div id="dragBears"></div><button class="nextBtn">Next</button></section>
+<section class="page" id="page4"><h2>Bear Story Time 🐻📖</h2><p>Cute bears and kittens are celebrating! 🐻🐱</p><button class="nextBtn">Next</button></section>
+<section class="page" id="page5"><h2>Look at these magical babies 💖</h2><button class="nextBtn">Next</button></section>
+<section class="page" id="page6"><h2>Find the Golden Bear 🐻✨</h2><div id="goldBear" style="font-size:50px; cursor:pointer;">🐻✨</div><button class="nextBtn">Next</button></section>
+<section class="page" id="page7"><h2>Dance with the Bears & Kittens 💃🐻🐱</h2><div id="danceBears"></div><button class="nextBtn">Next</button></section>
+<section class="page" id="page8"><h2>Music & Dancing 🎶🐻🐱</h2><div id="musicBears"></div><button class="nextBtn">Next</button></section>
+<section class="page" id="page9"><h2>Secret Surprise Countdown ⏳</h2><p>Click the Golden Bear to Reveal! 🐻✨</p><div id="secretTrigger" style="font-size:50px; cursor:pointer;">🐻✨</div></section>
+
+<!-- Birthday Page -->
+<section class="page" id="page10">
+<h1>Happy Birthday Muskan 🎂💖</h1>
+<div class="cake">🎂🎂🎂</div>
+<img src="https://i.imgur.com/8Km9tLL.png" class="realBarbie">
+<img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" class="realKitten k1">
+<img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" class="realKitten k2">
+<p id="typedMessage"></p>
+<p id="poetry"></p>
+<button id="celebrateBtn">Celebrate 🎶</button>
+<h2 style="margin-top:20px; color:#ff1493;">Meri payari sister muj sy naraz na Howa kro 💖</h2>
+<div id="jashanText" class="jashanText">JASHAN 🎉</div>
+</section>
+
+<!-- Birthday Song -->
+<audio id="birthdaySong" src="songs/song0.mp3" loop autoplay></audio>
+
+<script>
+let currentPage=1;
+const pages=document.querySelectorAll('.page'); pages[0].style.display='block';
+document.querySelectorAll('.nextBtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(currentPage<pages.length){
+      pages[currentPage-1].style.display='none';
+      pages[currentPage].style.display='block';
+      currentPage++;
+    }
+  });
+});
+
+// Floating hearts + kittens
+function createFloating(){
+  const items=['❤️','💖','💘','🐻','🐱','✨','🎈'];
+  setInterval(()=>{
+    const span=document.createElement('div');
+    span.className='floating';
+    span.style.left=Math.random()*window.innerWidth+'px';
+    span.style.top='-50px';
+    span.textContent=items[Math.floor(Math.random()*items.length)];
+    span.style.fontSize=(20+Math.random()*20)+'px';
+    span.style.animationDuration=(5+Math.random()*5)+'s';
+    document.body.appendChild(span);
+    setTimeout(()=>span.remove(),10000);
+  },400);
+}
+createFloating();
+
+// Dancing bears & kittens
+function createDancingBears(containerId,num){
+  const container=document.getElementById(containerId);
+  for(let i=0;i<num;i++){
+    const bear=document.createElement('div');
+    bear.className='bear';
+    bear.textContent='🐻';
+    bear.style.left=Math.random()*window.innerWidth+'px';
+    bear.style.top=Math.random()*window.innerHeight+'px';
+    container.appendChild(bear);
+  }
+}
+createDancingBears('danceBears',5);
+createDancingBears('musicBears',5);
+
+// Secret trigger to birthday
+document.getElementById('secretTrigger').addEventListener('click',()=>{
+  pages[currentPage-1].style.display='none';
+  pages[9].style.display='block';
+  currentPage=10;
+  typeWriter();
+  typePoetry();
+  jashanEffect();
+  document.getElementById('birthdaySong').play().catch(e=>console.log("Autoplay blocked",e));
+});
+
+// Birthday typing
+const message="Muskan, tum meri zindagi ka sabse pyara hissa ho. Humari 2 years friendship ka har moment priceless hai. Happy Birthday! 💖🐻";
+let i=0; const typedMessage=document.getElementById('typedMessage');
+function typeWriter(){typedMessage.innerHTML=''; i=0; function type(){if(i<message.length){typedMessage.innerHTML+=message.charAt(i); i++; setTimeout(type,100);}} type();}
+
+// Urdu poetry
+const poetryText="بہن وہ خزانہ ہے جو دل میں بستا ہے  پچھلے 2 سالوں کی یادیں ہمیشہ دل میں رہیں گی۔  میری پیاری بہن Muskan، تمہیں سالگرہ مبارک ہو ❤️";
+let j=0; const poetryElem=document.getElementById('poetry');
+function typePoetry(){poetryElem.innerHTML=''; j=0; function typeP(){if(j<poetryText.length){if(poetryText.charAt(j)==="\n"){poetryElem.innerHTML+="<br>";}else{poetryElem.innerHTML+=poetryText.charAt(j);} j++; setTimeout(typeP,100);}} typeP();}
+
+// Celebrate button
+document.getElementById('celebrateBtn').addEventListener('click',()=>{
+  const song=document.getElementById('birthdaySong');
+  song.play().catch(e=>console.log("Autoplay blocked",e));
+
+  // Confetti + Fireworks
+  for(let k=0;k<300;k++){
+    const conf=document.createElement('div'); conf.className='confetti';
+    conf.style.left=Math.random()*window.innerWidth+'px';
+    conf.style.backgroundColor=['#ff1493','#ff69b4','#ffb6c1','#ffd700','#00ffff'][Math.floor(Math.random()*5)];
+    document.body.appendChild(conf); setTimeout(()=>conf.remove(),5000);
+  }
+});
+
+// Sparkle cursor
+document.addEventListener("mousemove",e=>{
+  const sparkle=document.createElement("div");
+  sparkle.className="sparkle";
+  sparkle.innerHTML="✨";
+  sparkle.style.left=e.pageX+"px";
+  sparkle.style.top=e.pageY+"px";
+  document.body.appendChild(sparkle);
+  setTimeout(()=>sparkle.remove(),500);
+});
+
+// Birthday jashan effect
+function jashanEffect(){
+  const jash=document.getElementById('jashanText');
+  jash.style.display='block';
+  for(let k=0;k<200;k++){
+    const conf=document.createElement('div'); conf.className='confetti';
+    conf.style.left=Math.random()*window.innerWidth+'px';
+    conf.style.backgroundColor=['#ff1493','#ff69b4','#ffb6c1','#ffd700','#00ffff'][Math.floor(Math.random()*5)];
+    document.body.appendChild(conf);
+    setTimeout(()=>conf.remove(),5000);
+  }
+}
+</script>
+</body>
+</html>
